@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Finder for Disabled People</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<style>
+    /* Base styles */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    background-color: #000;
+    scroll-behavior: smooth;
+}
+
+header {
+    text-align: center;
+}
+
+.banner {
+    position: relative;
+    height: 90vh;
+    background: url('image.png') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 40px;
+}
+
+.banner .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.banner .content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.glow {
+    font-size: 9em;
+    color: #fff;
+    margin-top: -18px;
+    letter-spacing: 0.2em;
+    justify-content: center;
+    text-shadow: 0 0 10px #fff, 0 0 20px #a3433a, 0 0 30px #ff6f61, 0 0 40px #ff6f61, 0 0 50px #ff6f61, 0 0 60px #ff6f61, 0 0 70px #ff6f61;
+}
+
+.banner p {
+    font-size: 2.5em;
+    margin-top: 0px;
+}
+
+.search-bar1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.search-bar1 button {
+    padding: 10px 12px;
+    font-size: 1.5em;
+    border: none;
+    background-color: #ff6f61;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background-color: transparent;
+    align-items: center;
+}
+
+.search-bar label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 20px;
+    line-height: 4;
+    margin-top: 0px;
+}
+
+.search-bar select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    font-size: 15px;
+    flex: 1;
+}
+
+.search-bar select:focus {
+    border-color: #ff6f61;
+    outline: none;
+}
+
+.search-bar button {
+    padding: 5px;
+    border: none;
+    border-radius: 5px 5px 5px 5px;
+    background-color: #ff6f61;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #e65a50;
+}
+
+nav {
+    background-color: #333;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    font-size: 15px;
+    line-height: 2;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+}
+
+.about-section {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    padding: 50px;
+    background-color: #000;
+}
+
+.column {
+    flex: 3;
+    margin: 20px;
+    font-size: 15px;
+    border-right: 1px solid #555;
+}
+
+.column:last-child {
+    border-right: none;
+}
+
+.column h2 {
+    color: #ff6f61;
+    font-size: 40px;
+}
+
+.search-results {
+    display: none;
+    padding: 30px;
+    background-color: #111;
+}
+
+.search-results h2 {
+    font-size: 1em;
+    color: #ff6f61;
+    margin-bottom: 20px;
+}
+.job-listing {
+    margin-top: 90px;
+    margin-bottom: 50px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.job {
+
+    background-color: #2c2c2c;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.job-title {
+    font-size: 1.5em;
+    color: #ff6f61;
+    margin: 0;
+}
+.job-company {
+    font-size: 1.2em;
+    color: #a0a0a0;
+}
+.job-location {
+    font-size: 1em;
+    color: #a0a0a0;
+}
+.job-description {
+    margin-top: 10px;
+    font-size: 1em;
+    color: #f0f0f0;
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    background-color: #343a40;
+    color: #fff;
+    margin-top: 200px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+footer p {
+    margin: 5px 0;
+    font-size: 15px;
+}
+
+footer a {
+    color: #ff6f61;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #e65a50;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 480px) {
+    .banner {
+        height: 60vh;
+    }
+
+    .banner h1.glow {
+        font-size: 2em;
+    }
+
+    .banner p {
+        font-size: 1em;
+    }
+
+    .search-bar, .search-bar1 {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .search-bar input[type="text"], .search-bar select, .search-bar button {
+        width: 100%;
+        font-size: 0.8em;
+        padding: 8px 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+    }
+
+    footer {
+        font-size: 14px;
+        padding: 15px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+
+    table {
+        width: 100%;
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    .about-section {
+        flex-direction: column;
+        text-align: center;
+
+    }
+
+    .column {
+        margin: 20px 0;
+        border-right: none;
+    }
+
+    .search-results {
+        padding: 15px;
+    }
+
+    .search-results h2 {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    .banner {
+        height: 70vh;
+    }
+
+    .banner h1.glow {
+        font-size: 3em;
+    }
+
+    .banner p {
+        font-size: 1.5em;
+    }
+
+    .search-bar, .search-bar1 {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .search-bar input[type="text"], .search-bar select, .search-bar button {
+        width: 100%;
+        font-size: 1em;
+        padding: 8px 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+    }
+
+    footer {
+        font-size: 14px;
+        padding: 25px;
+        width: 700px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+
+    table {
+        width: 100%;
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    .about-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .column {
+        margin: 20px 0;
+        border-right: none;
+    }
+
+    .search-results {
+        padding: 15px;
+    }
+
+    .search-results h2 {
+        font-size: 0.9em;
+    }
+}
+
+</style>
+<body>
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="all-jobs">Jobs</a></li>
+        </ul>
+    </nav>
+    <div class="banner">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1 class="glow">JFD</h1>
+            <p>Job Finder for Disabled People</p>
+            <form class="search-bar" action="/" method="get">
+                <label for="city"> Search City:</label>
+                <select id="city" name="location">
+                    <option value="San Diego, CA" th:selected="${location == 'San Diego, CA'}">San Diego, CA</option>
+                    <option value="Washington, DC" th:selected="${location == 'Washington, DC'}">Washington, DC</option>
+                    <option value="Chicago, IL" th:selected="${location == 'Chicago, IL'}">Chicago, IL</option>
+                    <option value="New York, NY" th:selected="${location == 'New York, NY'}">New York, NY</option>
+                    <option value="San Francisco, CA" th:selected="${location == 'San Francisco, CA'}">San Francisco, CA</option>
+                    <option value="Los Angeles, CA" th:selected="${location == 'Los Angeles, CA'}">Los Angeles, CA</option>
+                    <option value="Houston, TX" th:selected="${location == 'Houston, TX'}">Houston, TX</option>
+                    <option value="Seattle, WA" th:selected="${location == 'Seattle, WA'}">Seattle, WA</option>
+                    <option value="Miami, FL" th:selected="${location == 'Miami, FL'}">Miami, FL</option>
+                    <option value="Boston, MA" th:selected="${location == 'Boston, MA'}">Boston, MA</option>
+                    <option value="Philadelphia, PA" th:selected="${location == 'Philadelphia, PA'}">Philadelphia, PA</option>
+                    <option value="Dallas, TX" th:selected="${location == 'Dallas, TX'}">Dallas, TX</option>
+                    <option value="Atlanta, GA" th:selected="${location == 'Atlanta, GA'}">Atlanta, GA</option>
+                    <option value="Denver, CO" th:selected="${location == 'Denver, CO'}">Denver, CO</option>
+                    <option value="Phoenix, AZ" th:selected="${location == 'Phoenix, AZ'}">Phoenix, AZ</option>
+                    <option value="Detroit, MI" th:selected="${location == 'Detroit, MI'}">Detroit, MI</option>
+                    <option value="San Jose, CA" th:selected="${location == 'San Jose, CA'}">San Jose, CA</option>
+                    <option value="Austin, TX" th:selected="${location == 'Austin, TX'}">Austin, TX</option>
+                    <option value="Orlando, FL" th:selected="${location == 'Orlando, FL'}">Orlando, FL</option>
+                    <option value="Nashville, TN" th:selected="${location == 'Nashville, TN'}">Nashville, TN</option>
+                    <option value="Minneapolis, MN" th:selected="${location == 'Minneapolis, MN'}">Minneapolis, MN</option>
+                    <option value="Portland, OR" th:selected="${location == 'Portland, OR'}">Portland, OR</option>
+                    <option value="Remote" th:selected="${location == 'Remote'}">Remote</option>
+                </select>
+                <br><br>
+                <div class="container">
+                    <form class="search-bar1 " action="/" method="get">
+                        <button type="submit" >Search</button>
+            </form></div>
+        </form></div>
+
+</div>
+</div>
+
+<div class="job-listing">
+    <div th:each="job : ${jobs}" class="job">
+        <h2 class="job-title" th:text="${job.title}"></h2>
+        <p class="job-company" th:text="${job.company}"></p>
+        <p class="job-location" th:text="${job.location}"></p>
+        <p class="job-description" th:text="${job.description}"></p>
+    </div>
+</div>
+
+<div id="about" class="about-section">
+    <div class="column">
+        <h2>Why JFD?</h2>
+        <p>
+            JFD was created to bridge the employment gap for disabled individuals by providing a dedicated platform that connects them with inclusive employers. Our mission is to empower disabled people by offering job opportunities that match their skills and abilities.
+        </p>
+    </div>
+    <div class="column">
+        <h2>Benefits</h2>
+        <p>
+            Our platform offers numerous benefits, including personalized job recommendations, resources for career development, and support from a community of like-minded individuals. We strive to ensure that every job seeker has the tools they need to succeed.
+        </p>
+    </div>
+    <div class="column">
+        <h2>Advantages</h2>
+        <p>
+            JFD provides a user-friendly interface, seamless job application processes, and partnerships with companies that are committed to diversity and inclusion. Join us in creating a more equitable job market for everyone.
+        </p>
+    </div>
+</div>
+<footer>
+    <p>Website made by: Arisha Mumtaz & Farheen Imam</p>
+    <p>We have made this for the hackathon</p>
+</footer>
+<script src="/static/script.js"></script>
+</body>
+</html>
