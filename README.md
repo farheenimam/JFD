@@ -1,8 +1,6 @@
 # JFD
 <p align="center">
- <a href="https://web3templates.com/?ref=nextly_github_logo">
  <img src="image.png">
- </a> 
  <br>
  <br>
 </p>
